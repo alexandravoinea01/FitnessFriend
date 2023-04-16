@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FitnessFriend</string>
+    <string name="app_name">Fitness Friend</string>
     <string name="hello_world">Hello World!</string>
     <string name="name">Name</string>
     <string name="say_hi">Say Hi!</string>
@@ -12,4 +12,6 @@
     <string name="newAccount">Don\'t have an account? Create one now!</string>
     <string name="register">Register</string>
     <string name="sign_up">Sign up</string>
+    <string name="logout">Logout</string>
+    <string name="welcome">Welcome!</string>
 </resources>
