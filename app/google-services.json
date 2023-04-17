@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "346661058194-rt54b77sd94iqj7vd0ekj2ihsc79kt5r.apps.googleusercontent.com",
+          "client_id": "346661058194-g3j6c4lshrciteknc5b8ep00uk1rinbd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fitnessfriend",
+            "certificate_hash": "c3659d2778d5ab3982845a7ec47cfd88a6a5db81"
+          }
+        },
+        {
+          "client_id": "346661058194-ev1okh9poq62glva7nar8gd7p2tch9gu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,7 +35,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "346661058194-rt54b77sd94iqj7vd0ekj2ihsc79kt5r.apps.googleusercontent.com",
+              "client_id": "346661058194-ev1okh9poq62glva7nar8gd7p2tch9gu.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

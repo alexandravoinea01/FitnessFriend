@@ -1,6 +1,7 @@
 package com.example.fitnessfriend;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -23,6 +24,7 @@ public class RegisterActivity extends AppCompatActivity {
     MaterialButton registerBtn;
     FirebaseAuth mAuth;
     ProgressBar progressBar;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,8 @@ public class RegisterActivity extends AppCompatActivity {
         passwordText = findViewById(R.id.password);
         registerBtn = findViewById(R.id.signupBtn);
         progressBar = findViewById(R.id.progressBar);
+
+        sharedPreferences = getSharedPreferences("SP_NAME", MODE_PRIVATE);
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +63,9 @@ public class RegisterActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 progressBar.setVisibility(View.GONE);
                                 if (task.isSuccessful()) {
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString("email", email);
+                                    editor.apply();
                                     Toast.makeText(RegisterActivity.this, "Account created.",
                                             Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getApplicationContext(), HomeActivity.class);

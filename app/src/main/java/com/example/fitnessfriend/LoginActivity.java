@@ -1,11 +1,11 @@
 package com.example.fitnessfriend;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     GoogleSignInClient client;
     ProgressBar progressBar;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +48,9 @@ public class LoginActivity extends AppCompatActivity {
         registerBtn = findViewById(R.id.registerBtn);
         googleLoginBtn = findViewById(R.id.googleBtn);
         progressBar = findViewById(R.id.progressBar);
+
+        sharedPreferences = getSharedPreferences("SP_NAME", MODE_PRIVATE);
+        checkLogin();
 
         GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -73,13 +77,15 @@ public class LoginActivity extends AppCompatActivity {
                     .addOnCompleteListener(task -> {
                         progressBar.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("email", email);
+                            editor.apply();
                             Toast.makeText(LoginActivity.this, "Login successful.",
                                     Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                             startActivity(intent);
 
                         } else {
-                            // If sign in fails, display a message to the user.
                             Toast.makeText(LoginActivity.this, "Login failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
@@ -100,6 +106,14 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void checkLogin() {
+        String email = sharedPreferences.getString("email", "");
+        if (!email.equals("")) {
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            startActivity(intent);
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -112,17 +126,22 @@ public class LoginActivity extends AppCompatActivity {
                 FirebaseAuth.getInstance().signInWithCredential(credential)
                         .addOnCompleteListener(task1 -> {
                             if (task1.isSuccessful()) {
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("email", account.getEmail());
+                                editor.apply();
                                 Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                                 startActivity(intent);
                             } else {
                                 progressBar.setVisibility(View.GONE);
-                                Toast.makeText(LoginActivity.this, task1.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Login failed.",
+                                        Toast.LENGTH_SHORT).show();
                             }
                         });
             } catch (ApiException e) {
                 progressBar.setVisibility(View.GONE);
                 e.printStackTrace();
-                Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Login failed.",
+                        Toast.LENGTH_SHORT).show();
             }
         }
     }
