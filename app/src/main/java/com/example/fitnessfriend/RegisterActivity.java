@@ -68,7 +68,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     editor.apply();
                                     Toast.makeText(RegisterActivity.this, "Account created.",
                                             Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                     startActivity(intent);
 
                                 } else {
