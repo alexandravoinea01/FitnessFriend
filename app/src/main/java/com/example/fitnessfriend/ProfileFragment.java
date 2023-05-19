@@ -5,15 +5,14 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -87,6 +86,10 @@ public class ProfileFragment extends Fragment {
         sharedPreferences = this.getActivity().getSharedPreferences("SP_NAME", MODE_PRIVATE);
         String newTitle = "Welcome,\n" + sharedPreferences.getString("email", "") + "!";
         title.setText(newTitle);
+        logoutBtnAction(logoutBtn, sharedPreferences);
+    }
+
+    private void logoutBtnAction(MaterialButton logoutBtn, SharedPreferences sharedPreferences) {
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -20,6 +20,13 @@
     <string name="calorie_intake">Calorie Intake</string>
     <string name="workout">Workout</string>
     <string name="profile">Profile</string>
+    <string name="breakfast">Breakfast</string>
+    <string name="lunch">Lunch</string>
+    <string name="dinner">Dinner</string>
+    <string name="snacks">Snacks</string>
+    <string name="addFood">Add Food</string>
+    <string name="searchForFood">Search for food</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="selectMeal">Select meal</string>
 </resources>

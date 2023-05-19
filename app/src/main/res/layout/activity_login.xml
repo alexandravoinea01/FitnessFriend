@@ -100,7 +100,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/orText"
         android:layout_centerInParent="true"
-        android:background="@drawable/rectangle">
+        android:background="@drawable/rounded_rectangle">
 
         <ImageView
             android:layout_width="34dp"
