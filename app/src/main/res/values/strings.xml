@@ -29,4 +29,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="selectMeal">Select meal</string>
+    <string name="weight">Weight</string>
+    <string name="height">Height</string>
+    <string name="save">Save</string>
 </resources>

@@ -2,12 +2,17 @@ package com.example.fitnessfriend;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -67,6 +72,7 @@ public class ProfileFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -79,14 +85,16 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         MaterialButton logoutBtn = getView().findViewById(R.id.logoutBtn);
-        TextView title = getView().findViewById(R.id.welcomeTitle);
+        TextView email = getView().findViewById(R.id.email);
+        ImageView imageView = getView().findViewById(R.id.ProfilePicture);
 
         SharedPreferences sharedPreferences;
         sharedPreferences = this.getActivity().getSharedPreferences("SP_NAME", MODE_PRIVATE);
-        String newTitle = "Welcome,\n" + sharedPreferences.getString("email", "") + "!";
-        title.setText(newTitle);
+        email.setText(sharedPreferences.getString("email", ""));
         logoutBtnAction(logoutBtn, sharedPreferences);
+        loadImageFromGallery(imageView);
     }
 
     private void logoutBtnAction(MaterialButton logoutBtn, SharedPreferences sharedPreferences) {
@@ -115,5 +123,25 @@ public class ProfileFragment extends Fragment {
                 });
             }
         });
+    }
+
+    private void loadImageFromGallery(ImageView imageView) {
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, 3);
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && data != null) {
+            Uri selectedImage = data.getData();
+            ImageView imageView = getView().findViewById(R.id.ProfilePicture);
+            imageView.setImageURI(selectedImage);
+        }
     }
 }
