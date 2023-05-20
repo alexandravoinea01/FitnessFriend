@@ -2,14 +2,17 @@ package com.example.fitnessfriend;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.bluetooth.le.ScanSettings;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import android.widget.VideoView;
+import java.util.Random;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -73,6 +76,26 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        VideoView videoView = view.findViewById(R.id.videoView);
+        Random rand = new Random();
+        int videoNumber = rand.nextInt(4);
+        videoNumber += 1;
+        String videoPath;
+        if(videoNumber == 1){
+            videoPath = "android.resource://" + requireContext().getPackageName() + "/" + R.raw.video1;
+        }
+        else if(videoNumber == 2){
+            videoPath = "android.resource://" + requireContext().getPackageName() + "/" + R.raw.video2;
+        }
+        else if(videoNumber == 3){
+            videoPath = "android.resource://" + requireContext().getPackageName() + "/" + R.raw.video3;
+        }
+        else {
+            videoPath = "android.resource://" + requireContext().getPackageName() + "/" + R.raw.video4;
+        }
+        videoView.setVideoURI(Uri.parse(videoPath));
+        videoView.start();
         return view;
     }
 }
