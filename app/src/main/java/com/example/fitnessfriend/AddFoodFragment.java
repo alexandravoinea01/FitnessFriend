@@ -7,18 +7,24 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import com.example.fitnessfriend.services.AppDatabase;
 import com.example.fitnessfriend.services.Food;
+import com.example.fitnessfriend.services.FoodDao;
 import com.example.fitnessfriend.services.HttpUtils;
 import com.google.android.material.button.MaterialButton;
 
@@ -27,6 +33,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -38,6 +46,8 @@ import okhttp3.Response;
  * create an instance of this fragment.
  */
 public class AddFoodFragment extends DialogFragment {
+
+    String selectedMeal = new String("");
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -103,6 +113,16 @@ public class AddFoodFragment extends DialogFragment {
         String[] items = new String[]{"Breakfast", "Lunch", "Dinner", "Snacks"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                Object item = parent.getItemAtPosition(pos);
+                selectedMeal = parent.getSelectedItem().toString();
+                System.out.println(selectedMeal);
+            }
+
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
     private void handleSearchButton(MaterialButton searchBtn) {
@@ -111,7 +131,6 @@ public class AddFoodFragment extends DialogFragment {
             public void onClick(View v) {
                 EditText searchBarText = getView().findViewById(R.id.searchFood);
                 String searchedFood = searchBarText.getText().toString();
-                System.out.println(searchedFood);
 
                 try {
 //                    makeRequest(searchedFood);
@@ -142,18 +161,35 @@ public class AddFoodFragment extends DialogFragment {
         layout.setOrientation(LinearLayout.VERTICAL);
         LinearLayout[] linearLayouts = new LinearLayout[foods.length];
         TextView[] textViews = new TextView[foods.length];
-        MaterialButton[] materialButtons = new MaterialButton[foods.length];
+        Button[] materialButtons = new Button[foods.length];
+
         for (int i = 0; i < foods.length; i++) {
             textViews[i] = new TextView(getContext());
             String text = foods[i].label + " - " + foods[i].ENERC_KCAL + " kcal / 100g";
             textViews[i].setText(text);
             textViews[i].setTextColor(Color.BLACK);
-            textViews[i].setId(i);
 
             materialButtons[i] = new MaterialButton(getContext());
             materialButtons[i].setText("+");
-            materialButtons[i].setLeft(15);
-            materialButtons[i].setWidth(20);
+
+            final Food food = foods[i];
+            materialButtons[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Food newFood = new Food();
+                    newFood.foodId = food.foodId;
+                    newFood.label = food.label;
+                    newFood.ENERC_KCAL = food.ENERC_KCAL;
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                    String formattedDate = df.format(new Date());
+                    newFood.creationDate = formattedDate;
+                    newFood.meal = selectedMeal;
+                    FoodDao foodDao = AppDatabase.getInstance(getContext()).foodDao();
+                    foodDao.insert(newFood);
+                    Toast.makeText(getContext(), "Food added.",
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
 
             linearLayouts[i] = new LinearLayout(getContext());
             linearLayouts[i].addView(materialButtons[i]);
