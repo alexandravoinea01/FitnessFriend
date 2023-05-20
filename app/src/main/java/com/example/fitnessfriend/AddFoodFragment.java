@@ -8,10 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -90,14 +88,24 @@ public class AddFoodFragment extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        System.out.println("ON VIEW CREATED");
 
         Spinner dropdown = getView().findViewById(R.id.selectMeal);
+        handleDropdown(dropdown);
+
+        MaterialButton searchBtn = getView().findViewById(R.id.searchBtn);
+        handleSearchButton(searchBtn);
+
+        MaterialButton backBtn = getView().findViewById(R.id.backBtn);
+        handleBackBtn(backBtn);
+    }
+
+    private void handleDropdown(Spinner dropdown) {
         String[] items = new String[]{"Breakfast", "Lunch", "Dinner", "Snacks"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
+    }
 
-        MaterialButton searchBtn = getView().findViewById(R.id.searchBtn);
+    private void handleSearchButton(MaterialButton searchBtn) {
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,6 +120,19 @@ public class AddFoodFragment extends DialogFragment {
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
+            }
+        });
+    }
+
+    private void handleBackBtn(MaterialButton backBtn) {
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CaloryIntakeFragment caloryIntakeFragment = new CaloryIntakeFragment();
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.flFragment, caloryIntakeFragment)
+                        .commit();
             }
         });
     }
