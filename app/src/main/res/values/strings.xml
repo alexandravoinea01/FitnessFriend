@@ -33,4 +33,6 @@
     <string name="height">Height in meters (e.g. 1.80)</string>
     <string name="save">Save</string>
     <string name="calorieGoal">Calories goal in kcals (e.g. 1500)</string>
+    <string name="today_s_intake">Today\'s intake:</string>
+    <string name="goalIntake">Target intake:</string>
 </resources>

@@ -1,5 +1,8 @@
 package com.example.fitnessfriend;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -191,6 +194,11 @@ public class AddFoodFragment extends DialogFragment {
                     String formattedDate = df.format(new Date());
                     newFood.creationDate = formattedDate;
                     newFood.meal = selectedMeal;
+
+                    SharedPreferences sharedPreferences;
+                    sharedPreferences = getActivity().getSharedPreferences("SP_NAME", MODE_PRIVATE);
+                    newFood.madeBy = sharedPreferences.getString("email", "");
+
                     FoodDao foodDao = AppDatabase.getInstance(getContext()).foodDao();
                     foodDao.insert(newFood);
                     Toast.makeText(getContext(), "Food added.",

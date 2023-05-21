@@ -1,14 +1,26 @@
 package com.example.fitnessfriend;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.VideoView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.fitnessfriend.services.AppDatabase;
+import com.example.fitnessfriend.services.FoodDao;
+import com.example.fitnessfriend.services.User;
+import com.example.fitnessfriend.services.UserDao;
+
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -59,6 +71,39 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        TextView todayIntake, targetIntake;
+        todayIntake = requireView().findViewById(R.id.todayIntake);
+        targetIntake = getView().findViewById(R.id.targetIntake);
+
+        SharedPreferences sharedPreferences;
+        sharedPreferences = this.getActivity().getSharedPreferences("SP_NAME", MODE_PRIVATE);
+        String email = sharedPreferences.getString("email", "");
+
+        FoodDao foodDao = AppDatabase.getInstance(getContext()).foodDao();
+
+        Double today = Double.valueOf(foodDao.findByUser(email)
+                .stream()
+                .map(obj -> obj.ENERC_KCAL)
+                .reduce(0, Integer::sum));
+
+        String calorieGoal = AppDatabase.getInstance(getContext()).userDao().findByEmail(email).calorieGoal;
+
+        String todayText = today.toString() + " kcal";
+
+        todayIntake.setText(todayText);
+
+        if (calorieGoal == null) {
+            targetIntake.setText("No goal was set.");
+        } else {
+            calorieGoal = calorieGoal + " kcal / day";
+            targetIntake.setText(calorieGoal);
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -69,16 +114,13 @@ public class HomeFragment extends Fragment {
         int videoNumber = rand.nextInt(4);
         videoNumber += 1;
         String videoPath;
-        if(videoNumber == 1){
+        if (videoNumber == 1) {
             videoPath = "android.resource://" + requireContext().getPackageName() + "/" + R.raw.video1;
-        }
-        else if(videoNumber == 2){
+        } else if (videoNumber == 2) {
             videoPath = "android.resource://" + requireContext().getPackageName() + "/" + R.raw.video2;
-        }
-        else if(videoNumber == 3){
+        } else if (videoNumber == 3) {
             videoPath = "android.resource://" + requireContext().getPackageName() + "/" + R.raw.video3;
-        }
-        else {
+        } else {
             videoPath = "android.resource://" + requireContext().getPackageName() + "/" + R.raw.video4;
         }
         videoView.setVideoURI(Uri.parse(videoPath));

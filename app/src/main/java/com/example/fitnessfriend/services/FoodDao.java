@@ -12,23 +12,12 @@ import java.util.List;
 @Dao
 @TypeConverters({Converters.class})
 public interface FoodDao {
-    @Query("SELECT * FROM food")
-    List<Food> getAll();
 
-    @Query("SELECT * FROM food WHERE food_id IN (:foodIds)")
-    List<Food> loadAllByIds(int[] foodIds);
+    @Query("SELECT * FROM food WHERE creation_date LIKE :creationDate and meal LIKE :meal and made_by LIKE :email")
+    List<Food> findByCreationDateAndMeal(String creationDate, String meal, String email);
 
-    @Query("SELECT * FROM food WHERE label LIKE :label")
-    Food findByLabel(String label);
-
-    @Query("SELECT * FROM food WHERE meal LIKE :meal")
-    List<Food> findByMeal(String meal);
-
-    @Query("SELECT * FROM food WHERE creation_date LIKE :creationDate")
-    List<Food> findByCreationDate(Date creationDate);
-
-    @Query("SELECT * FROM food WHERE creation_date LIKE :creationDate and meal LIKE :meal")
-    List<Food> findByCreationDateAndMeal(String creationDate, String meal);
+    @Query("SELECT * FROM food WHERE made_by LIKE :email")
+    List<Food> findByUser(String email);
 
     @Insert
     void insert(Food food);

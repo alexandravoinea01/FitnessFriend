@@ -27,6 +27,9 @@ public class Food {
     @ColumnInfo(name = "creation_date")
     public String creationDate;
 
+    @ColumnInfo(name = "made_by")
+    public String madeBy;
+
     public Food() {
         id = new String(String.valueOf(View.generateViewId()));
     }
