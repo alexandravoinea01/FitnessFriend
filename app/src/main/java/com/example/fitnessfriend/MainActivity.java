@@ -92,8 +92,8 @@ public class MainActivity extends AppCompatActivity
 //        PendingIntent pendingIntent = PendingIntent.getActivity(MainActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this, "My notification");
-        builder.setContentTitle("My title");
-        builder.setContentText("Notification! AAABBBCCCDDD"); // Corrected method name
+        builder.setContentTitle("Add you calories for today!");
+        builder.setContentText("Have you eat any meals? Add them in FitnessFriend!"); // Corrected method name
         builder.setSmallIcon(R.drawable.ic_launcher_background);
         builder.setAutoCancel(true);
         //builder.setContentIntent(pendingIntent);
