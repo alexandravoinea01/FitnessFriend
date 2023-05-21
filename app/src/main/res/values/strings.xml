@@ -32,5 +32,5 @@
     <string name="weight">Weight in kgs (e.g. 70)</string>
     <string name="height">Height in meters (e.g. 1.80)</string>
     <string name="save">Save</string>
-    <string name="calorieGoal">calories goal in kcals (e.g. 1500)</string>
+    <string name="calorieGoal">Calories goal in kcals (e.g. 1500)</string>
 </resources>

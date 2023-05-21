@@ -5,6 +5,10 @@ import static android.content.Context.MODE_PRIVATE;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -14,11 +18,17 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.fitnessfriend.services.AppDatabase;
+import com.example.fitnessfriend.services.User;
+import com.example.fitnessfriend.services.UserDao;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -26,6 +36,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.io.File;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -83,18 +95,63 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        SharedPreferences sharedPreferences;
+        sharedPreferences = this.getActivity().getSharedPreferences("SP_NAME", MODE_PRIVATE);
+
+        TextView email = getView().findViewById(R.id.email);
+        email.setText(sharedPreferences.getString("email", ""));
+
+        updateUser(email);
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         MaterialButton logoutBtn = getView().findViewById(R.id.logoutBtn);
-        TextView email = getView().findViewById(R.id.email);
-        ImageView imageView = getView().findViewById(R.id.ProfilePicture);
-
+        MaterialButton saveBtn = getView().findViewById(R.id.saveBtn);
         SharedPreferences sharedPreferences;
         sharedPreferences = this.getActivity().getSharedPreferences("SP_NAME", MODE_PRIVATE);
+        TextView email = getView().findViewById(R.id.email);
         email.setText(sharedPreferences.getString("email", ""));
+
+        ImageView imageView = getView().findViewById(R.id.ProfilePicture);
+
         logoutBtnAction(logoutBtn, sharedPreferences);
+        saveBtnAction(saveBtn);
         loadImageFromGallery(imageView);
+    }
+
+    private void updateUser(TextView email) {
+        User currentUser = AppDatabase.getInstance(getContext()).userDao().findByEmail(email.getText().toString());
+
+        EditText weight = getView().findViewById(R.id.weight);
+        weight.setText(currentUser.weight);
+        EditText height = getView().findViewById(R.id.height);
+        height.setText(currentUser.height);
+        EditText calorieGoal = getView().findViewById(R.id.calorieGoal);
+        calorieGoal.setText(currentUser.calorieGoal);
+    }
+
+    private void saveBtnAction(MaterialButton saveBtn) {
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = ((TextView) getView().findViewById(R.id.email)).getText().toString();
+                String weight = ((EditText) getView().findViewById(R.id.weight)).getText().toString();
+                String height = ((EditText) getView().findViewById(R.id.height)).getText().toString();
+                String calorieGoal = ((EditText) getView().findViewById(R.id.calorieGoal)).getText().toString();
+
+                UserDao userDao = AppDatabase.getInstance(getContext()).userDao();
+                User user = userDao.findByEmail(email);
+                userDao.updateHeight(height, email);
+                userDao.updateWeight(weight, email);
+                userDao.updateCalorieGoal(calorieGoal, email);
+                Toast.makeText(getContext(), "User updated successfully.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void logoutBtnAction(MaterialButton logoutBtn, SharedPreferences sharedPreferences) {
@@ -142,6 +199,10 @@ public class ProfileFragment extends Fragment {
             Uri selectedImage = data.getData();
             ImageView imageView = getView().findViewById(R.id.ProfilePicture);
             imageView.setImageURI(selectedImage);
+
+//            String email = ((TextView) getView().findViewById(R.id.email)).getText().toString();
+//            UserDao userDao = AppDatabase.getInstance(getContext()).userDao();
+//            User user = userDao.findByEmail(email);
         }
     }
 }

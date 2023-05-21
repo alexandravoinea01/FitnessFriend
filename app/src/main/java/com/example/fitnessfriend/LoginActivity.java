@@ -13,6 +13,9 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.fitnessfriend.services.AppDatabase;
+import com.example.fitnessfriend.services.User;
+import com.example.fitnessfriend.services.UserDao;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -80,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("email", email);
                             editor.apply();
+                            addUserToDatabase(email);
                             Toast.makeText(LoginActivity.this, "Login successful.",
                                     Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -106,6 +110,16 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void addUserToDatabase(String email) {
+        UserDao userDao = AppDatabase.getInstance(getApplicationContext()).userDao();
+        User newUser = new User();
+        newUser.email = email;
+
+        if (userDao.findByEmail(email) == null) {
+            userDao.insert(newUser);
+        }
+    }
+
     private void checkLogin() {
         String email = sharedPreferences.getString("email", "");
         if (!email.equals("")) {
@@ -129,6 +143,7 @@ public class LoginActivity extends AppCompatActivity {
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("email", account.getEmail());
                                 editor.apply();
+                                addUserToDatabase(account.getEmail());
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(intent);
                             } else {
