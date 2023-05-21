@@ -1,100 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ConstraintLayout"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/logoutBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/logout"
-        app:backgroundTint="@color/design_default_color_secondary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/saveBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/save"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <RelativeLayout
-        android:id="@+id/ProfilePictureContainer"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/ConstraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints">
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
 
-        <ImageView
-            android:id="@+id/ProfilePicture"
-            android:layout_width="189dp"
-            android:layout_height="182dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
-            android:src="@drawable/baseline_person_24" />
-    </RelativeLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/logoutBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/logout"
+            app:backgroundTint="@color/design_default_color_secondary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="#30000000"
-        android:drawableStart="@drawable/baseline_person_24"
-        android:drawablePadding="20dp"
-        android:padding="20dp"
-        android:text="@string/email"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/ProfilePictureContainer"
-        tools:layout_editor_absoluteX="0dp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/saveBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/save"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/weight"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="90dp"
-        android:background="#30000000"
-        android:drawableStart="@drawable/baseline_monitor_weight_24"
-        android:drawablePadding="20dp"
-        android:hint="@string/weight"
-        android:padding="20dp"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/ProfilePictureContainer"
-        tools:layout_editor_absoluteX="0dp" />
+        <RelativeLayout
+            android:id="@+id/ProfilePictureContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints">
 
-    <EditText
-        android:id="@+id/height"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="160dp"
-        android:background="#30000000"
-        android:drawableStart="@drawable/baseline_height_24"
-        android:drawablePadding="20dp"
-        android:hint="@string/height"
-        android:padding="20dp"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/ProfilePictureContainer"
-        tools:layout_editor_absoluteX="0dp" />
+            <ImageView
+                android:id="@+id/ProfilePicture"
+                android:layout_width="189dp"
+                android:layout_height="182dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"
+                android:src="@drawable/baseline_person_24" />
+        </RelativeLayout>
 
-    <EditText
-        android:id="@+id/calorieGoal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="230dp"
-        android:background="#30000000"
-        android:drawableStart="@drawable/baseline_set_meal_24"
-        android:drawablePadding="20dp"
-        android:hint="@string/calorieGoal"
-        android:padding="20dp"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/ProfilePictureContainer"
-        tools:layout_editor_absoluteX="0dp" />
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#30000000"
+            android:drawableStart="@drawable/baseline_person_24"
+            android:drawablePadding="20dp"
+            android:padding="20dp"
+            android:text="@string/email"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/ProfilePictureContainer"
+            tools:layout_editor_absoluteX="0dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            android:id="@+id/weight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="90dp"
+            android:background="#30000000"
+            android:drawableStart="@drawable/baseline_monitor_weight_24"
+            android:drawablePadding="20dp"
+            android:hint="@string/weight"
+            android:padding="20dp"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/ProfilePictureContainer"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <EditText
+            android:id="@+id/height"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="160dp"
+            android:background="#30000000"
+            android:drawableStart="@drawable/baseline_height_24"
+            android:drawablePadding="20dp"
+            android:hint="@string/height"
+            android:padding="20dp"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/ProfilePictureContainer"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <EditText
+            android:id="@+id/calorieGoal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="230dp"
+            android:background="#30000000"
+            android:drawableStart="@drawable/baseline_set_meal_24"
+            android:drawablePadding="20dp"
+            android:hint="@string/calorieGoal"
+            android:padding="20dp"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/ProfilePictureContainer"
+            tools:layout_editor_absoluteX="0dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

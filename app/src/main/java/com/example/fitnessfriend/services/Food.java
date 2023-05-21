@@ -14,19 +14,21 @@ public class Food {
     @PrimaryKey
     @NonNull
     String id;
-
     @ColumnInfo(name = "food_id")
     public String foodId;
     @ColumnInfo(name = "label")
     public String label;
     @ColumnInfo(name = "enerc_kcal")
-    public Double ENERC_KCAL;
+    public int ENERC_KCAL;
 
     @ColumnInfo(name = "meal")
     public String meal;
 
     @ColumnInfo(name = "creation_date")
     public String creationDate;
+
+    @ColumnInfo(name = "made_by")
+    public String madeBy;
 
     public Food() {
         id = new String(String.valueOf(View.generateViewId()));

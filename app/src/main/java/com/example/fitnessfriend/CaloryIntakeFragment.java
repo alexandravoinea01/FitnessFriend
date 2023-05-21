@@ -1,6 +1,9 @@
 package com.example.fitnessfriend;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.DatePickerDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -172,19 +175,21 @@ public class CaloryIntakeFragment extends Fragment {
     }
 
     private void showSumPerMeal(TextView viewById, List<Food> foods) {
-        Double sum = foods.stream()
+        Double sum = Double.valueOf(foods.stream()
                 .map(obj -> obj.ENERC_KCAL)
-                .reduce(0.0, Double::sum);
-        String newText = viewById.getText().toString().split(" ")[0] + " - " + sum + " kcal";
+                .reduce(0, Integer::sum));
+        String newText = viewById.getText().toString().split(" ")[0] + " - " + sum.intValue() + " kcal";
         viewById.setText(newText);
     }
 
     private List<Food> getEntries(LinearLayout layout, String meal, String date) {
         FoodDao foodDao = AppDatabase.getInstance(getContext()).foodDao();
-        List<Food> todayFoods = foodDao.findByCreationDateAndMeal(date, meal);
-//        for (int j = 0; j < todayFoods.size(); j++) {
-//            foodDao.delete(todayFoods.get(j));
-//        }
+
+        SharedPreferences sharedPreferences;
+        sharedPreferences = this.getActivity().getSharedPreferences("SP_NAME", MODE_PRIVATE);
+        String email = sharedPreferences.getString("email", "");
+
+        List<Food> todayFoods = foodDao.findByCreationDateAndMeal(date, meal, email);
         TextView[] textViews = new TextView[todayFoods.size()];
         LinearLayout[] layouts = new LinearLayout[todayFoods.size()];
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
