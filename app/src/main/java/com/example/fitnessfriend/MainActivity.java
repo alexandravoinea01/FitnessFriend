@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity
     }
     HomeFragment homeFragment = new HomeFragment();
     CaloryIntakeFragment caloryIntakeFragment = new CaloryIntakeFragment();
-    WorkoutFragment workoutFragment = new WorkoutFragment();
     ProfileFragment profileFragment = new ProfileFragment();
 
     @Override
@@ -48,13 +47,6 @@ public class MainActivity extends AppCompatActivity
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.flFragment, caloryIntakeFragment)
-                        .commit();
-                return true;
-
-            case R.id.workout:
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.flFragment, workoutFragment)
                         .commit();
                 return true;
 
