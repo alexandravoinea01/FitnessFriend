@@ -83,4 +83,18 @@
         app:layout_constraintTop_toBottomOf="@+id/ProfilePictureContainer"
         tools:layout_editor_absoluteX="0dp" />
 
+    <EditText
+        android:id="@+id/calorieGoal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="230dp"
+        android:background="#30000000"
+        android:drawableStart="@drawable/baseline_set_meal_24"
+        android:drawablePadding="20dp"
+        android:hint="@string/calorieGoal"
+        android:padding="20dp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/ProfilePictureContainer"
+        tools:layout_editor_absoluteX="0dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
