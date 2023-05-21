@@ -14,15 +14,8 @@ import android.widget.TextView;
 import android.widget.VideoView;
 import java.util.Random;
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.button.MaterialButton;
-import com.google.firebase.auth.FirebaseAuth;
+import androidx.fragment.app.Fragment;
 
 /**
  * A simple {@link Fragment} subclass.
