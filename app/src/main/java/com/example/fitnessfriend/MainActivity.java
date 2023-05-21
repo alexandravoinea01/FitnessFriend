@@ -1,8 +1,10 @@
 package com.example.fitnessfriend;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -33,7 +35,7 @@ public class MainActivity extends AppCompatActivity
 
         bottomNavigationView
                 .setOnNavigationItemSelectedListener(this);
-        bottomNavigationView.setSelectedItemId(R.id.home);
+        //bottomNavigationView.setSelectedItemId(R.id.home);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel("My notification", "My notification", NotificationManager.IMPORTANCE_DEFAULT);
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         notification();
+
     }
 
     HomeFragment homeFragment = new HomeFragment();
@@ -85,24 +88,19 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void notification() {
-//        Intent intent = new Intent(MainActivity.this, MainActivity.class);
-//        intent.putExtra("FRAGMENT", "calorieIntakeFragment");
-//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//
-//        PendingIntent pendingIntent = PendingIntent.getActivity(MainActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this, "My notification");
-        builder.setContentTitle("Add you calories for today!");
-        builder.setContentText("Have you eat any meals? Add them in FitnessFriend!"); // Corrected method name
-        builder.setSmallIcon(R.drawable.ic_launcher_background);
-        builder.setAutoCancel(true);
-        //builder.setContentIntent(pendingIntent);
-
-        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(MainActivity.this);
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+            System.out.println("No permission!");
             return;
         }
-        managerCompat.notify(1, builder.build());
 
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this, "My notification");
+        builder.setContentTitle("Add your calories for today!");
+        builder.setContentText("Have you eaten any meals? Add them in FitnessFriend!");
+        builder.setSmallIcon(R.drawable.ic_launcher_background);
+        builder.setAutoCancel(true);
+
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(MainActivity.this);
+        managerCompat.notify(1, builder.build());
     }
 }
