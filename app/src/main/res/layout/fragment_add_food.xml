@@ -43,6 +43,14 @@
             android:spinnerMode="dropdown"
             android:textColor="@color/black" />
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/dynamicLayout"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone" />
+
         <RelativeLayout
             android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
