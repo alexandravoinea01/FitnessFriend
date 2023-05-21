@@ -12,6 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.fitnessfriend.services.AppDatabase;
+import com.example.fitnessfriend.services.User;
+import com.example.fitnessfriend.services.UserDao;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
@@ -66,6 +69,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
                                     editor.putString("email", email);
                                     editor.apply();
+                                    addUserToDatabase(email);
                                     Toast.makeText(RegisterActivity.this, "Account created.",
                                             Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -80,5 +84,15 @@ public class RegisterActivity extends AppCompatActivity {
                         });
             }
         });
+    }
+
+    private void addUserToDatabase(String email) {
+        UserDao userDao = AppDatabase.getInstance(getApplicationContext()).userDao();
+        User newUser = new User();
+        newUser.email = email;
+
+        if (userDao.findByEmail(email) == null) {
+            userDao.insert(newUser);
+        }
     }
 }

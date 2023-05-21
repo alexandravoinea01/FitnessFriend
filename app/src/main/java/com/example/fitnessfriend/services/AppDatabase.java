@@ -7,7 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-@Database(entities = {Food.class}, version = 1)
+@Database(entities = {Food.class, User.class}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase instance;
@@ -28,5 +28,6 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     public abstract FoodDao foodDao();
+    public abstract UserDao userDao();
 }
 
