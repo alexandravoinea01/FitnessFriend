@@ -179,6 +179,7 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
+                            MainActivity.count = 0;
                             FirebaseAuth.getInstance().signOut();
                             Intent login_intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
                             login_intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
