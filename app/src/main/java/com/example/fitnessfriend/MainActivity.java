@@ -23,11 +23,15 @@ public class MainActivity extends AppCompatActivity
         implements BottomNavigationView
         .OnNavigationItemSelectedListener {
 
+    static int count = 0;
+
     BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        count++;
         setContentView(R.layout.activity_main);
 
         bottomNavigationView
@@ -35,7 +39,10 @@ public class MainActivity extends AppCompatActivity
 
         bottomNavigationView
                 .setOnNavigationItemSelectedListener(this);
-        //bottomNavigationView.setSelectedItemId(R.id.home);
+
+        if (count == 1) {
+            bottomNavigationView.setSelectedItemId(R.id.home);
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel("My notification", "My notification", NotificationManager.IMPORTANCE_DEFAULT);
