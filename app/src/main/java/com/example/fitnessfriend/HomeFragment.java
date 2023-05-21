@@ -1,21 +1,15 @@
 package com.example.fitnessfriend;
 
-import static android.content.Context.MODE_PRIVATE;
-
-import android.bluetooth.le.ScanSettings;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.VideoView;
-import java.util.Random;
-import androidx.annotation.NonNull;
 
 import androidx.fragment.app.Fragment;
+
+import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
