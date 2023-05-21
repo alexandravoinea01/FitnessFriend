@@ -161,7 +161,7 @@ public class AddFoodFragment extends DialogFragment {
         layout.setOrientation(LinearLayout.VERTICAL);
         LinearLayout[] linearLayouts = new LinearLayout[foods.length];
         TextView[] textViews = new TextView[foods.length];
-        Button[] materialButtons = new Button[foods.length];
+        TextView[] addButtons = new TextView[foods.length];
 
         for (int i = 0; i < foods.length; i++) {
             textViews[i] = new TextView(getContext());
@@ -169,11 +169,14 @@ public class AddFoodFragment extends DialogFragment {
             textViews[i].setText(text);
             textViews[i].setTextColor(Color.BLACK);
 
-            materialButtons[i] = new MaterialButton(getContext());
-            materialButtons[i].setText("+");
+            addButtons[i] = new TextView(getContext());
+            addButtons[i].setText("+");
+            addButtons[i].setTextSize(30);
+            addButtons[i].setTextColor(0xFF3700B3);
+            addButtons[i].setPadding(30, 30, 10, 0);
 
             final Food food = foods[i];
-            materialButtons[i].setOnClickListener(new View.OnClickListener() {
+            addButtons[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Food newFood = new Food();
@@ -192,7 +195,7 @@ public class AddFoodFragment extends DialogFragment {
             });
 
             linearLayouts[i] = new LinearLayout(getContext());
-            linearLayouts[i].addView(materialButtons[i]);
+            linearLayouts[i].addView(addButtons[i]);
             linearLayouts[i].addView(textViews[i]);
             layout.addView(linearLayouts[i]);
         }
