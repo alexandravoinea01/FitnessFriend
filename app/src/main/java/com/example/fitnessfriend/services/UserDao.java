@@ -21,8 +21,8 @@ public interface UserDao {
     @Query("UPDATE user SET calorie_goal=:calorieGoal WHERE email = :email")
     void updateCalorieGoal(String calorieGoal, String email);
 
-    @Query("UPDATE user SET profile_picture=:profilePicture WHERE email = :email")
-    void updateProfilePicture(String profilePicture, String email);
+    @Query("UPDATE user SET image=:profilePicture WHERE email = :email")
+    void updateProfilePicture(byte[] profilePicture, String email);
 
     @Insert
     void insert(User user);

@@ -26,8 +26,8 @@ public class User {
     @ColumnInfo(name = "calorie_goal")
     public String calorieGoal;
 
-    @ColumnInfo(name = "profile_picture")
-    public String picture;
+    @ColumnInfo(typeAffinity = ColumnInfo.BLOB, name = "image")
+    public byte[] image;
 
     public User() {
         id = new String(String.valueOf(View.generateViewId()));

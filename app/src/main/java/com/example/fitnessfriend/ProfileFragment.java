@@ -5,13 +5,11 @@ import static android.content.Context.MODE_PRIVATE;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +20,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.fitnessfriend.services.AppDatabase;
@@ -37,7 +33,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.io.File;
+import java.io.ByteArrayOutputStream;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,6 +41,9 @@ import java.io.File;
  * create an instance of this fragment.
  */
 public class ProfileFragment extends Fragment {
+
+    Uri imagePath;
+    Bitmap imageToStore;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -117,6 +116,8 @@ public class ProfileFragment extends Fragment {
         TextView email = getView().findViewById(R.id.email);
         email.setText(sharedPreferences.getString("email", ""));
 
+        updateUser(email);
+
         ImageView imageView = getView().findViewById(R.id.ProfilePicture);
 
         logoutBtnAction(logoutBtn, sharedPreferences);
@@ -133,6 +134,13 @@ public class ProfileFragment extends Fragment {
         height.setText(currentUser.height);
         EditText calorieGoal = getView().findViewById(R.id.calorieGoal);
         calorieGoal.setText(currentUser.calorieGoal);
+
+        ImageView imageView = (ImageView) getView().findViewById(R.id.ProfilePicture);
+        byte[] imageInByte = currentUser.image;
+        if (imageInByte != null) {
+            Bitmap bmp = BitmapFactory.decodeByteArray(imageInByte, 0, imageInByte.length);
+            imageView.setImageBitmap(bmp);
+        }
     }
 
     private void saveBtnAction(MaterialButton saveBtn) {
@@ -186,7 +194,9 @@ public class ProfileFragment extends Fragment {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_PICK);
                 startActivityForResult(intent, 3);
             }
         });
@@ -200,9 +210,15 @@ public class ProfileFragment extends Fragment {
             ImageView imageView = getView().findViewById(R.id.ProfilePicture);
             imageView.setImageURI(selectedImage);
 
-//            String email = ((TextView) getView().findViewById(R.id.email)).getText().toString();
-//            UserDao userDao = AppDatabase.getInstance(getContext()).userDao();
-//            User user = userDao.findByEmail(email);
+            Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] imageInByte = baos.toByteArray();
+
+            String email = ((TextView) getView().findViewById(R.id.email)).getText().toString();
+            UserDao userDao = AppDatabase.getInstance(getContext()).userDao();
+            User user = userDao.findByEmail(email);
+            userDao.updateProfilePicture(imageInByte, email);
         }
     }
 }
