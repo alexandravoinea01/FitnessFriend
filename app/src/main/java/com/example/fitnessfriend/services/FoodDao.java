@@ -16,8 +16,8 @@ public interface FoodDao {
     @Query("SELECT * FROM food WHERE creation_date LIKE :creationDate and meal LIKE :meal and made_by LIKE :email")
     List<Food> findByCreationDateAndMeal(String creationDate, String meal, String email);
 
-    @Query("SELECT * FROM food WHERE made_by LIKE :email")
-    List<Food> findByUser(String email);
+    @Query("SELECT * FROM food WHERE made_by LIKE :email AND creation_date like :creationDate")
+    List<Food> findByUser(String email, String creationDate);
 
     @Insert
     void insert(Food food);

@@ -20,6 +20,8 @@ import com.example.fitnessfriend.services.FoodDao;
 import com.example.fitnessfriend.services.User;
 import com.example.fitnessfriend.services.UserDao;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Random;
 
@@ -84,7 +86,10 @@ public class HomeFragment extends Fragment {
 
         FoodDao foodDao = AppDatabase.getInstance(getContext()).foodDao();
 
-        Double today = Double.valueOf(foodDao.findByUser(email)
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = df.format(new Date());
+
+        Double today = Double.valueOf(foodDao.findByUser(email, formattedDate)
                 .stream()
                 .map(obj -> obj.ENERC_KCAL)
                 .reduce(0, Integer::sum));
