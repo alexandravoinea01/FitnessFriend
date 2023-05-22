@@ -2,9 +2,11 @@ package com.example.fitnessfriend;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -84,6 +86,32 @@ public class ProfileFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+    }
+
+    @SuppressLint("ResourceType")
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        System.out.println("DAAAAAAAAAAAAA");
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // Transition to landscape layout
+            getActivity().setContentView(R.layout.fragment_profile);
+            // Apply custom animation
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.scale_in, R.anim.scale_out)
+                    .replace(R.id.flFragment, new ProfileFragment())
+                    .commit();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // Transition to landscape layout
+            getActivity().setContentView(R.layout.fragment_profile);
+            // Apply custom animation
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.scale_in, R.anim.scale_out)
+                    .replace(R.id.flFragment, new ProfileFragment())
+                    .commit();
+        }
     }
 
     @Override
